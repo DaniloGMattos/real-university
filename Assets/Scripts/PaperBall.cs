@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PaperBall : MonoBehaviour
 {
+    protected virtual void Start()
+    {
+        
+    }
+
   public Rigidbody2D rb;
   public Rigidbody2D hook;
   public float releaseTime = .15f;
@@ -29,7 +34,8 @@ public class PaperBall : MonoBehaviour
   }
   void OnMouseDown()
   {
-    isPressed = true;
+        AudioManager.Play(gameObject, AudioManager.ENUMAudioFile.clique);
+        isPressed = true;
     rb.isKinematic = true;
   }
   void OnMouseUp()
@@ -41,7 +47,8 @@ public class PaperBall : MonoBehaviour
   }
   IEnumerator Release()
   {
-    yield return new WaitForSeconds(releaseTime);
+        AudioManager.Play(gameObject, AudioManager.ENUMAudioFile.objtpequenovoando);
+        yield return new WaitForSeconds(releaseTime);
 
     GetComponent<SpringJoint2D>().enabled = false;
     this.enabled = false;

@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 503239956}
   - component: {fileID: 503239957}
   - component: {fileID: 503239958}
+  - component: {fileID: 503239959}
   m_Layer: 0
   m_Name: ball
   m_TagString: Untagged
@@ -415,6 +416,30 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &503239959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503239951}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eff9059244e1334797cf2cd30d31105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioFiles:
+  - audioFileName: 7
+    audioClip: {fileID: 8300000, guid: dc8ce12eb864aef4bb17ee3f4c03efee, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - audioFileName: 0
+    audioClip: {fileID: 8300000, guid: a7ae535646365904380258db460d0994, type: 3}
+    volume: 0.117
+    pitch: 1.93
+    loop: 0
+  audioSource: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +451,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -441,6 +467,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eff9059244e1334797cf2cd30d31105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioFiles: []
+  audioSource: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -478,7 +518,7 @@ Camera:
   m_TargetEye: 0
   m_HDR: 1
   m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -792,6 +832,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 4
+--- !u!114 &1701031630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701031624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eff9059244e1334797cf2cd30d31105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioFiles:
+  - audioFileName: 4
+    audioClip: {fileID: 8300000, guid: f25fc0d5f41702d4793cd315de7f17c1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  audioSource: {fileID: 0}
 --- !u!1001 &2088804674
 PrefabInstance:
   m_ObjectHideFlags: 0
