@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PaperBall : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PaperBall : MonoBehaviour
   public float releaseTime = .15f;
   public float maxDragDistance = 5f;
   private bool isPressed = false;
+    public GameObject nextBall;
 
 
   void Update()
@@ -50,7 +52,18 @@ public class PaperBall : MonoBehaviour
         AudioManager.Play(gameObject, AudioManager.ENUMAudioFile.objtpequenovoando);
         yield return new WaitForSeconds(releaseTime);
 
+
     GetComponent<SpringJoint2D>().enabled = false;
     this.enabled = false;
+        yield return new WaitForSeconds(2f);
+       if(nextBall != null)
+        {
+            nextBall.SetActive(true);
+       }
+       else
+        {
+           SceneManager.LoadScene(3);
+       }
+        
   }
 }
