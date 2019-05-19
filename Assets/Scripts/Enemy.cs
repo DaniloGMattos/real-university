@@ -9,12 +9,14 @@ public class Enemy : MonoBehaviour
   {
     if (colInfo.relativeVelocity.magnitude > health)
     {
-      Die();
+            Die();
+
     }
     Debug.Log(colInfo.relativeVelocity.magnitude);
   }
   void Die()
   {
-    Destroy(gameObject);
+        AudioManager.Play(gameObject, AudioManager.ENUMAudioFile.morte);
+        Destroy(gameObject);
   }
 }

@@ -6,22 +6,28 @@ using UnityEditor;
 public class AudioController : MonoBehaviour
 {
 
-    public AudioManager.ArquivoSom[] arquivos;
-    public AudioSource fonte;
+    public AudioManager.AudioFile[] audioFiles;
+    public AudioSource audioSource;
 
-void Awake()
+    // Use this for initialization
+    void Awake()
     {
-fonte = gameObject.GetComponent<AudioSource>();
-if (fonte == null)
-    fonte = gameObject.AddComponent<AudioSource>();
+        audioSource = gameObject.GetComponent<AudioSource>();
+        // If the gameObject doesn't have any AudioSources, add one to it 
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
 
-AudioManager.FontesDeSom.Add(fonte);
-
-}
-
-private void OnDestroy()
-    {
-        AudioManager.FontesDeSom.Remove(fonte);
+        AudioManager.audioSources.Add(audioSource);
     }
 
+    private void OnDestroy()
+    {
+        AudioManager.audioSources.Remove(audioSource);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

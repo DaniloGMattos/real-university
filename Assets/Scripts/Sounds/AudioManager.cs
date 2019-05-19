@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : Singleton<AudioManager> //Singleton nao deleta quando recarregar a cena
+public class AudioManager : Singleton<AudioManager>
 {
- public enum ENUM_ArquivosDeSom
+
+    #region Variables
+
+    public enum ENUMAudioFile
     {
-        //nomes das faixas a serem chamadas nos codigos
         clique,
         impacto,
         impactoapagador,
@@ -17,77 +19,96 @@ public class AudioManager : Singleton<AudioManager> //Singleton nao deleta quand
         objtpequenovoando,
         provavoando,
         relatoriovoando,
-       
     }
 
-[System.Serializable] //para aparecer na aba inspector no unity   
-public struct ArquivoSom{
 
-    public ENUM_ArquivosDeSom NomeArquivoSom;
-    public AudioClip ArquivoDeSom;
+    [System.Serializable]
+    public struct AudioFile
+    {
+        public ENUMAudioFile audioFileName;
+        public AudioClip audioClip;
 
-    [Range(0f, 1f)]
-    public float Volume;  //Definindo os botoes.    
-    [Range(0.1f, 3f)]
-    public float Frequencia;
+        [Range(0f, 1f)]
+        public float volume;
+        [Range(0.1f, 3f)]
+        public float pitch;
 
-    public bool Loop;
+        public bool loop;
+
     }
 
-    public static List<AudioSource> FontesDeSom = new List<AudioSource>();
+    public static List<AudioSource> audioSources = new List<AudioSource>();
 
-//Criando a funcao play
- public static float Play(GameObject jObjeto, ENUM_ArquivosDeSom arquivo)
+    #endregion
+
+    // Use this for initialization
+    void Start()
+    {
+    }
+
+
+    ///<summary>
+    /// Plays the audioFile searched by ENUMAudioFile within the gameObject
+    ///</summary>
+    /// <param name="gameObject">The GameObject who is calling the Play method</param>
+    /// <param name="enumAudioFile">The ENUMAudioFile to be played</param>
+    /// <returns>The AudioFile file length in milliseconds. Returns 0 if the file wasn't found.
+    /// Returns -1 if the gameObject doesn't have an AudioController</returns>
+    public static float Play(GameObject gObject, ENUMAudioFile enumAudioFile)
     {
 
-        AudioController ControleAudio = jObjeto.GetComponent<AudioController>();
-        if (!ControleAudio){
-           Debug.Log("Não foi detectado o controle do jogo " + jObjeto.name + " gameObject");  
+        AudioController audioController = gObject.GetComponent<AudioController>();
+        if (!audioController)
+        {
+            Debug.Log("No AudioController detected on " + gObject.name + " gameObject");
             return -1f;
         }
 
-AudioSource uFonteDeSom = jObjeto.GetComponent<AudioSource>();
-        if (uFonteDeSom == null){
-            Debug.Log("No Fonte de Som detected on " + jObjeto.name + " gameObject");
+        AudioSource audioSource = gObject.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            Debug.Log("No AudioSource detected on " + gObject.name + " gameObject");
             return -2f;
         }
 
-AudioClip ArquivoDeSom = null; 
+        AudioClip audioClip = null;
+        float volume = audioSource.volume;
+        float pitch = audioSource.pitch;
+        bool loop = audioSource.loop;
+        foreach (AudioFile audioFile in audioController.audioFiles)
+        {
+            if (audioFile.audioFileName == enumAudioFile)
+            {
+                audioClip = audioFile.audioClip;
+                volume = audioFile.volume;
+                pitch = audioFile.pitch;
+                loop = audioFile.loop;
+                break;
+            }
+        }
 
-float Volume = uFonteDeSom.volume;
-float Frequencia = uFonteDeSom.pitch;
-bool Loop = uFonteDeSom.loop;
-foreach(ArquivoSom arquivoSom in ControleAudio.arquivos){
+        if (audioClip == null)
+            return 0f;
 
-if(arquivoSom.NomeArquivoSom == arquivo){
+        audioSource.clip = audioClip;
+        audioSource.volume = volume;
+        audioSource.pitch = pitch;
+        audioSource.loop = loop;
+        audioSource.Play();
 
-    ArquivoDeSom = arquivoSom.ArquivoDeSom;
-    Volume = arquivoSom.Volume;
-    Frequencia = arquivoSom.Frequencia;
-    Loop = arquivoSom.Loop;
-    break;
-}
-}
-
-if (ArquivoDeSom == null)
-    return 0f;
-
-uFonteDeSom.clip = ArquivoDeSom;
-uFonteDeSom.volume = Volume;
-uFonteDeSom.pitch = Frequencia;
-uFonteDeSom.loop = Loop;
-uFonteDeSom.Play();
-
-return ArquivoDeSom.length;
-
+        return audioClip.length;
     }
 
-
+    
+    ///<summary>
+    /// Pause all Active AudioSources
+    ///</summary>
     public static void PauseAllAudioSources()
     {
-        foreach (AudioSource uFonteDeSom in FontesDeSom)
+        foreach (AudioSource audioSource in audioSources)
         {
-            uFonteDeSom.Pause();
+            audioSource.Pause();
         }
     }
 
@@ -96,9 +117,9 @@ return ArquivoDeSom.length;
     ///</summary>
     public static void ResumeAllAudioSources()
     {
-        foreach (AudioSource uFonteDeSom in FontesDeSom)
+        foreach (AudioSource audioSource in audioSources)
         {
-             uFonteDeSom.UnPause();
+            audioSource.UnPause();
         }
     }
 
@@ -107,9 +128,9 @@ return ArquivoDeSom.length;
     ///</summary>
     public static void MuteAllAudioSources()
     {
-        foreach (AudioSource uFonteDeSom in FontesDeSom)
+        foreach (AudioSource audioSource in audioSources)
         {
-             uFonteDeSom.mute = true;
+            audioSource.mute = true;
         }
     }
 
@@ -118,9 +139,9 @@ return ArquivoDeSom.length;
     ///</summary>
     public static void UnmuteAllAudioSources()
     {
-        foreach (AudioSource uFonteDeSom in FontesDeSom)
+        foreach (AudioSource audioSource in audioSources)
         {
-             uFonteDeSom.mute = false;
+            audioSource.mute = false;
         }
     }
 
